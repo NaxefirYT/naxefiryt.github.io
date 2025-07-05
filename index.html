@@ -11,16 +11,17 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #111827;
+            background-color: #0d121c; /* Deeper, rich dark blue-gray */
         }
         .tab-button.active {
-            border-color: #6366f1;
-            background-color: #4338ca;
+            border-color: #818cf8; /* Lighter indigo for active tab */
+            background-color: #4f46e5; /* Stronger indigo */
             color: #ffffff;
-            box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.6); /* More prominent shadow for active tab */
         }
         .tab-button {
             transition: all 0.3s ease;
+            color: #d1d5db; /* Light gray for inactive tabs */
         }
         .form-section { display: none; }
         .form-section.active { display: block; }
@@ -32,10 +33,10 @@
         }
         .input-item {
             display: flex;
-            flex-direction: column; /* Ensure vertical stacking for consistent alignment */
+            flex-direction: column;
             gap: 0.5rem;
         }
-        .input-item-inline { /* For checkboxes or items where label should be next to input */
+        .input-item-inline {
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -43,62 +44,83 @@
         }
         label {
             font-weight: 500;
-            color: #d1d5db;
+            color: #e2e8f0; /* Lighter label text */
         }
         input[type="checkbox"] {
             cursor: pointer;
         }
         input, select, textarea {
-            background-color: #1f2937;
-            border: 1px solid #4b5563;
+            background-color: #1f2937; /* Darker input background */
+            border: 1px solid #4b5563; /* Subtle border */
             border-radius: 0.5rem;
             padding: 0.75rem;
-            color: #e5e7eb;
+            color: #e5e7eb; /* Light text color */
             transition: all 0.2s ease-in-out;
             width: 100%;
         }
         input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5);
+            border-color: #818cf8; /* Lighter indigo focus border */
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5); /* Glowing focus effect */
         }
         fieldset {
-            border: 1px solid #374151;
+            border: 1px solid #374151; /* Darker border for fieldsets */
             transition: box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Default subtle shadow */
+            background-color: #1a202c; /* Slightly lighter than body, but darker than inputs */
         }
         fieldset:hover {
-            box-shadow: 0 0 20px rgba(55, 65, 81, 0.5);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); /* More prominent shadow on hover */
         }
         .dynamic-list-item {
             display: grid;
             gap: 1rem;
-            align-items: start; /* Align items to the start to prevent jumping */
+            align-items: start;
             border: 1px solid #4b5563;
             padding: 1rem;
             border-radius: 0.5rem;
-            background-color: #1f2937;
+            background-color: #1f2937; /* Consistent with input background */
         }
         .dynamic-list-item-simple {
              display: flex;
              gap: 0.5rem;
              align-items: center;
         }
-        .dynamic-list-item-simple input[type="text"] {
-            flex-grow: 1; /* Ensure input grows properly */
+        .dynamic-list-item-simple input[type="text"],
+        .dynamic-list-item-simple select {
+            flex-grow: 1;
         }
         .remove-item-btn {
-            background-color: #be123c;
+            background-color: #e11d48; /* Stronger rose color */
             color: white;
             padding: 0.6rem;
             border-radius: 0.5rem;
             line-height: 1;
             transition: background-color 0.2s;
             flex-shrink: 0;
+            box-shadow: 0 2px 5px rgba(225, 29, 72, 0.3);
         }
         .remove-item-btn:hover {
-            background-color: #e11d48;
+            background-color: #be123c; /* Darker rose on hover */
+            box-shadow: 0 4px 10px rgba(225, 29, 72, 0.5);
         }
-        .rich-text-tools {
+        /* Adjusted styling for "Add" buttons - more subtle, less prominent */
+        .add-btn { 
+            background-color: #374151; /* Darker gray for a subtle look */
+            color: #e2e8f0; /* Light text */
+            font-weight: 500;
+            padding: 0.75rem 1.5rem; /* Slightly more padding */
+            border-radius: 0.5rem;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            border: 1px solid #4b5563; /* Subtle border */
+        }
+        .add-btn:hover {
+            background-color: #4b5563; /* Slightly lighter gray on hover */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .rich-text-controls {
             display: flex;
             gap: 0.5rem;
             margin-top: 0.5rem;
@@ -106,16 +128,36 @@
         .color-picker-btn {
             width: 38px;
             height: 38px;
-            min-width: 38px; /* Ensure button doesn't shrink too much */
+            min-width: 38px;
             border-radius: 0.375rem;
             border: 1px solid #4b5563;
             cursor: pointer;
-            background-color: #ffffff; /* Default color for the button */
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
-        .rich-text-tools select {
+        .rich-text-controls select {
             flex-grow: 1;
             padding: 0.5rem;
-            background-color: #374151;
+            background-color: #374151; /* Darker background for controls */
+            border-color: #4b5563;
+            color: #e5e7eb;
+        }
+        .rich-text-preview {
+            background-color: #1f2937;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            color: #e5e7eb;
+            min-height: 40px;
+            margin-top: 0.5rem;
+            word-wrap: break-word;
+            white-space: pre-wrap; /* Preserve whitespace and newlines */
+            font-family: 'Inter', sans-serif; /* Consistent font */
+        }
+        #downloadFileName {
+            background-color: #1f2937;
+            border: 1px solid #4b5563;
+            color: #e5e7eb;
         }
     </style>
 </head>
@@ -144,6 +186,11 @@
             </button>
         </div>
 
+        <div class="mb-4">
+            <label for="downloadFileName" class="block text-gray-400 text-sm font-bold mb-2">Имя файла для скачивания (без расширения):</label>
+            <input type="text" id="downloadFileName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-gray-200 border-gray-600" value="custom_role">
+        </div>
+
         <div class="mb-8 border-b border-gray-700">
             <nav class="flex flex-wrap -mb-px" id="tabContainer">
                 <button class="tab-button active text-lg py-3 px-6 border-b-2 border-transparent rounded-t-lg" data-tab="general">Основное</button>
@@ -162,13 +209,18 @@
                     <legend class="text-xl font-semibold mb-4 px-2 text-indigo-300">Основная информация</legend>
                     <div class="input-group">
                         <div class="input-item"><label for="id">ID</label><input type="number" id="id" data-path="id"></div>
-                        <div class="input-item"><label for="name">Имя (rich text)</label><input type="text" id="name" data-path="name"></div>
+                        <div class="input-item"><label for="name">Имя (rich text)</label><input type="text" id="name" data-path="name"><div id="name_preview" class="rich-text-preview"></div></div>
                         <div class="input-item"><label for="nickname">Никнейм</label><input type="text" id="nickname" data-path="nickname"></div>
-                        <div class="input-item"><label for="custom_info">Доп. информация (rich text)</label><input type="text" id="custom_info" data-path="custom_info"></div>
+                        <div class="input-item">
+						<label for="custom_info">Доп. информация (rich text)</label>
+						<textarea id="custom_info" data-path="custom_info" rows="2" class="w-full"></textarea>
+						<div id="custom_info_preview" class="rich-text-preview"></div>
+						</div>
                     </div>
                      <div class="input-item mt-6">
                         <label for="role_observer_info">Информация для наблюдателя (rich text)</label>
                         <textarea id="role_observer_info" data-path="role_observer_info" rows="2" class="w-full"></textarea>
+                        <div id="role_observer_info_preview" class="rich-text-preview"></div>
                     </div>
                 </fieldset>
                 
@@ -204,6 +256,15 @@
                     </div>
                 </fieldset>
                 <fieldset class="bg-gray-800 p-6 rounded-xl shadow-md">
+                    <legend class="text-xl font-semibold mb-4 px-2 text-indigo-300">Hume Щит</legend>
+                    <div class="input-group">
+                        <div class="input-item"><label for="hume_shield_amount">Начальный щит</label><input type="number" id="hume_shield_amount" data-path="health.hume_shield"></div>
+                        <div class="input-item"><label for="max_hume_shield">Максимальный щит</label><input type="number" id="max_hume_shield" data-path="health.max_hume_shield"></div>
+                        <div class="input-item"><label for="hume_shield_regeneration_amount">Регенерация (в сек)</label><input type="number" step="0.1" id="hume_shield_regeneration_amount" data-path="health.hume_shield_regeneration_amount"></div>
+                        <div class="input-item"><label for="hume_shield_regeneration_delay">Задержка регенерации (сек)</label><input type="number" step="0.1" id="hume_shield_regeneration_delay" data-path="health.hume_shield_regeneration_delay"></div>
+                    </div>
+                </fieldset>
+                <fieldset class="bg-gray-800 p-6 rounded-xl shadow-md">
                     <legend class="text-xl font-semibold mb-4 px-2 text-indigo-300">Искусственное Здоровье (AHP)</legend>
                     <div class="input-group">
                         <div class="input-item"><label for="ahp_amount">Начальное AHP</label><input type="number" id="ahp_amount" data-path="ahp.amount"></div>
@@ -213,15 +274,6 @@
                         <div class="input-item"><label for="ahp_sustain">Задержка распада (сек)</label><input type="number" step="0.1" id="ahp_sustain" data-path="ahp.sustain"></div>
                     </div>
                     <div class="mt-6"><div class="input-item-inline"><input type="checkbox" id="ahp_persistant" data-path="ahp.persistant" class="w-5 h-5"><label for="ahp_persistant">Постоянный (не распадается)</label></div></div>
-                </fieldset>
-                <fieldset class="bg-gray-800 p-6 rounded-xl shadow-md">
-                    <legend class="text-xl font-semibold mb-4 px-2 text-indigo-300">Hume Щит</legend>
-                    <div class="input-group">
-                        <div class="input-item"><label for="hume_shield_amount">Начальный щит</label><input type="number" id="hume_shield_amount" data-path="hume_shield.amount"></div>
-                        <div class="input-item"><label for="hume_shield_maximum">Максимальный щит</label><input type="number" id="hume_shield_maximum" data-path="hume_shield.maximum"></div>
-                        <div class="input-item"><label for="hume_shield_regeneration_amount">Регенерация (в сек)</label><input type="number" step="0.1" id="hume_shield_regeneration_amount" data-path="hume_shield.regeneration_amount"></div>
-                        <div class="input-item"><label for="hume_shield_regeneration_delay">Задержка регенерации (сек)</label><input type="number" step="0.1" id="hume_shield_regeneration_delay" data-path="hume_shield.regeneration_delay"></div>
-                    </div>
                 </fieldset>
             </div>
             
@@ -244,7 +296,7 @@
                 <fieldset class="bg-gray-800 p-6 rounded-xl shadow-md">
                     <legend class="text-xl font-semibold mb-4 px-2 text-indigo-300">Эффекты</legend>
                     <div id="effectsContainer" class="space-y-4"></div>
-                    <button type="button" id="addEffectButton" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">Добавить эффект</button>
+                    <button type="button" id="addEffectButton" class="mt-4 add-btn">Добавить эффект</button>
                 </fieldset>
             </div>
             
@@ -252,18 +304,28 @@
                 <fieldset class="bg-gray-800 p-6 rounded-xl shadow-md">
                     <legend class="text-xl font-semibold mb-4 px-2 text-indigo-300">Стандартный инвентарь</legend>
                     <div id="inventoryContainer" class="space-y-2"></div>
-                    <button type="button" id="addInventoryItemButton" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">Добавить предмет</button>
+                    <button type="button" id="addInventoryItemButton" class="mt-4 add-btn">Добавить предмет</button>
                 </fieldset>
                 <fieldset class="bg-gray-800 p-6 rounded-xl shadow-md">
                     <legend class="text-xl font-semibold mb-4 px-2 text-indigo-300">Кастомный инвентарь</legend>
                      <p class="text-sm text-gray-400 mb-4">Добавьте кастомные предметы по одному (требуется плагин CustomItems).</p>
                     <div id="customInventoryContainer" class="space-y-2"></div>
-                    <button type="button" id="addCustomInventoryItemButton" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">Добавить кастомный предмет</button>
+                    <button type="button" id="addCustomInventoryItemButton" class="mt-4 add-btn">Добавить кастомный предмет</button>
                 </fieldset>
                 <fieldset class="bg-gray-800 p-6 rounded-xl shadow-md">
                     <legend class="text-xl font-semibold mb-4 px-2 text-indigo-300">Патроны</legend>
                     <div id="ammoContainer" class="space-y-4"></div>
-                    <button type="button" id="addAmmoButton" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">Добавить патроны</button>
+                    <button type="button" id="addAmmoButton" class="mt-4 add-btn">Добавить патроны</button>
+                </fieldset>
+                <fieldset class="bg-gray-800 p-6 rounded-xl shadow-md">
+                    <legend class="text-xl font-semibold mb-4 px-2 text-indigo-300">Ограничения инвентаря</legend>
+                    <div id="customInventoryLimitsContainer" class="space-y-4"></div>
+                    <button type="button" id="addCustomInventoryLimitButton" class="mt-4 add-btn">Добавить лимит</button>
+                </fieldset>
+                 <fieldset class="bg-gray-800 p-6 rounded-xl shadow-md">
+                    <legend class="text-xl font-semibold mb-4 px-2 text-indigo-300">Конфеты SCP-330</legend>
+                    <div id="inventoryCandyContainer" class="space-y-4"></div>
+                    <button type="button" id="addInventoryCandyButton" class="mt-4 add-btn">Добавить конфету</button>
                 </fieldset>
             </div>
 
@@ -274,8 +336,16 @@
                         <div class="input-item"><label for="spawn_broadcast_duration">Длительность сообщения (сек)</label><input type="number" id="spawn_broadcast_duration" data-path="spawn_broadcast_duration"></div>
                         <div class="input-item"><label for="spawn_hint_duration">Длительность подсказки (сек)</label><input type="number" id="spawn_hint_duration" data-path="spawn_hint_duration"></div>
                      </div>
-                     <div class="input-item mt-4"><label for="spawn_broadcast">Сообщение (Broadcast)</label><textarea id="spawn_broadcast" data-path="spawn_broadcast" rows="3" class="w-full"></textarea></div>
-                     <div class="input-item mt-4"><label for="spawn_hint">Подсказка (Hint)</label><textarea id="spawn_hint" data-path="spawn_hint" rows="2" class="w-full"></textarea></div>
+                     <div class="input-item mt-4">
+                        <label for="spawn_broadcast">Сообщение (Broadcast)</label>
+                        <textarea id="spawn_broadcast" data-path="spawn_broadcast" rows="3" class="w-full"></textarea>
+                        <div id="spawn_broadcast_preview" class="rich-text-preview"></div>
+                    </div>
+                     <div class="input-item mt-4">
+                        <label for="spawn_hint">Подсказка (Hint)</label>
+                        <textarea id="spawn_hint" data-path="spawn_hint" rows="2" class="w-full"></textarea>
+                        <div id="spawn_hint_preview" class="rich-text-preview"></div>
+                    </div>
                 </fieldset>
                  <fieldset class="bg-gray-800 p-6 rounded-xl shadow-md">
                     <legend class="text-xl font-semibold mb-4 px-2 text-indigo-300">Настройки спавна</legend>
@@ -284,29 +354,39 @@
                         <div class="input-item"><label for="min_players">Мин. игроков</label><input type="number" id="min_players" data-path="spawn_settings.min_players"></div>
                         <div class="input-item"><label for="max_players">Макс. игроков</label><input type="number" id="max_players" data-path="spawn_settings.max_players"></div>
                         <div class="input-item"><label for="spawn_type">Тип спавна</label><select id="spawn_type" data-path="spawn_settings.spawn"></select></div>
-                        <div class="input-item"><label for="required_permission">Требуемое разрешение</label><input type="text" id="required_permission" data-path="spawn_settings.required_permission"></div>
                      </div>
+                </fieldset>
+                <fieldset class="bg-gray-800 p-6 rounded-xl shadow-md">
+                    <legend class="text-xl font-semibold mb-4 px-2 text-indigo-300">Требуемые разрешения</legend>
+                    <div id="requiredPermissionContainer" class="space-y-2"></div>
+                    <button type="button" id="addRequiredPermissionButton" class="mt-4 add-btn">Добавить разрешение</button>
+                </fieldset>
+                 <fieldset class="bg-gray-800 p-6 rounded-xl shadow-md">
+                    <legend class="text-xl font-semibold mb-4 px-2 text-indigo-300">Игнорируемые группы</legend>
+                    <div id="ignoreGroupsContainer" class="space-y-2"></div>
+                    <button type="button" id="addIgnoreGroupButton" class="mt-4 add-btn">Добавить группу</button>
                 </fieldset>
                  <fieldset class="bg-gray-800 p-6 rounded-xl shadow-md">
                     <legend class="text-xl font-semibold mb-4 px-2 text-indigo-300">Заменяемые роли</legend>
                     <div id="canReplaceRolesContainer" class="space-y-2"></div>
-                    <button type="button" id="addCanReplaceRoleButton" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">Добавить роль</button>
-                </fieldset>
-                 <fieldset class="bg-gray-800 p-6 rounded-xl shadow-md">
-                    <legend class="text-xl font-semibold mb-4 px-2 text-indigo-300">Роли для спавна</legend>
-                    <div id="spawnRolesContainer" class="space-y-2"></div>
-                    <button type="button" id="addSpawnRoleButton" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">Добавить роль</button>
+                    <button type="button" id="addCanReplaceRoleButton" class="mt-4 add-btn">Добавить роль</button>
                 </fieldset>
                  <fieldset class="bg-gray-800 p-6 rounded-xl shadow-md">
                     <legend class="text-xl font-semibold mb-4 px-2 text-indigo-300">Зоны спавна</legend>
                     <div id="spawnZonesContainer" class="space-y-2"></div>
-                    <button type="button" id="addSpawnZoneButton" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">Добавить зону</button>
+                    <button type="button" id="addSpawnZoneButton" class="mt-4 add-btn">Добавить зону</button>
                 </fieldset>
                  <fieldset class="bg-gray-800 p-6 rounded-xl shadow-md">
                     <legend class="text-xl font-semibold mb-4 px-2 text-indigo-300">Комнаты спавна</legend>
                     <div id="spawnRoomsContainer" class="space-y-2"></div>
-                    <button type="button" id="addSpawnRoomButton" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">Добавить комнату</button>
+                    <button type="button" id="addSpawnRoomButton" class="mt-4 add-btn">Добавить комнату</button>
                 </fieldset>
+				<fieldset class="bg-gray-800 p-6 rounded-xl shadow-md">
+					<legend class="text-xl font-semibold mb-4 px-2 text-indigo-300">Точки спавна</legend>
+					<p class="text-sm text-gray-400 mb-4">Обязательно создайте точку спавна перед этим с помощью комадны ucr spawnpoint create.</p>
+					<div id="spawnPointsContainer" class="space-y-2"></div>
+					<button type="button" id="addSpawnPointButton" class="mt-4 add-btn">Добавить точку</button>
+				</fieldset>
             </div>
 
             <div id="escape" class="form-section space-y-8">
@@ -317,7 +397,7 @@
                 <fieldset class="bg-gray-800 p-6 rounded-xl shadow-md">
                     <legend class="text-xl font-semibold mb-4 px-2 text-indigo-300">Правила превращения после побега</legend>
                     <div id="escapeRulesContainer" class="space-y-4"></div>
-                    <button type="button" id="addEscapeRuleButton" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">Добавить правило</button>
+                    <button type="button" id="addEscapeRuleButton" class="mt-4 add-btn">Добавить правило</button>
                 </fieldset>
             </div>
 
@@ -328,9 +408,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Global State & Enums ---
             let config = {};
             const form = document.getElementById('roleForm');
+            const downloadFileNameInput = document.getElementById('downloadFileName');
 
             const enums = {
                 roleTypeIds: ['None','Scp173','ClassD','Spectator','Scp106','NtfSpecialist','Scp049','Scientist','Scp079','ChaosConscript','Scp096','Scp0492','NtfSergeant','NtfCaptain','NtfPrivate','Tutorial','FacilityGuard','Scp939','CustomRole','ChaosRifleman','ChaosRepressor','ChaosMarauder','Overwatch','Filmmaker','Scp3114','Flamingo','AlphaFlamingo','ZombieFlamingo'],
@@ -341,7 +421,9 @@
                 ammoTypes: ['Nato9','Nato556','Nato762','Ammo12Gauge','Ammo44Cal'],
                 spawnTypes: ['CompleteRandomSpawn','ZoneSpawn','RoomsSpawn','SpawnPointSpawn','KeepRoleSpawn','KeepCurrentPositionSpawn','ClassDCell','RoleSpawn'],
                 zoneTypes: ['LightContainment', 'HeavyContainment', 'Entrance', 'Surface'],
-                roomTypes: ['LczArmory','LczCurve','LczStraight','Lcz330','Lcz914','LczCrossing','LczTCross','LczCafe','LczPlants','LczToilets','LczAirlock','Lcz173','LczClassDSpawn','LczCheckpointB','LczGlassBox','LczCheckpointA','Hcz079','HczEzCheckpointA','HczEzCheckpointB','HczArmory','Hcz939','HczHid','Hcz049','HczChkpA','HczCrossing','Hcz106','HczNuke','HczTesla','HczTestRoom','HczElevatorA','HczElevatorB','HczServers','HczChkpB','HczTCross','HczCurve','Hcz096','EzVent','EzIntercom','EzGateA','EzDownstairsPcs','EzCurve','EzPcs','EzCrossing','EzCollapsedTunnel','EzConference','EzStraight','EzCafeteria','EzUpstairsPcs','EzGateB','EzShelter','Pocket','Surface', 'EzCheckpointHallway']
+                roomTypes: ['LczArmory','LczCurve','LczStraight','Lcz330','Lcz914','LczCrossing','LczTCross','LczCafe','LczPlants','LczToilets','LczAirlock','Lcz173','LczClassDSpawn','LczCheckpointB','LczGlassBox','LczCheckpointA','Hcz079','HczEzCheckpointA','HczEzCheckpointB','HczArmory','Hcz939','HczHid','Hcz049','HczChkpA','HczCrossing','Hcz106','HczNuke','HczTesla','HczTestRoom','HczElevatorA','HczElevatorB','HczServers','HczChkpB','HczTCross','HczCurve','Hcz096','EzVent','EzIntercom','EzGateA','EzDownstairsPcs','EzCurve','EzPcs','EzCrossing','EzCollapsedTunnel','EzConference','EzStraight','EzCafeteria','EzUpstairsPcs','EzGateB','EzShelter','Pocket','Surface', 'EzCheckpointHallway'],
+                candyKinds: ['None', 'Rainbow', 'Yellow', 'Purple', 'Red', 'Green', 'Blue', 'Pink', 'Random'],
+                inventoryLimitTypes: ['Keycard', 'Medical', 'Radio', 'Firearm', 'Grenade', 'SCPItem', 'SpecialWeapon', 'Ammo', 'Armor']
             };
             
             function populateSelect(selectElement, options) {
@@ -358,41 +440,58 @@
                 populateSelect(document.getElementById('team'), enums.teamEnums);
                 populateSelect(document.getElementById('spawn_type'), enums.spawnTypes);
                 
-                // Setup rich text editors
-                ['name', 'custom_info', 'role_observer_info', 'spawn_broadcast', 'spawn_hint'].forEach(setupRichTextTools);
+                ['name', 'custom_info', 'role_observer_info', 'spawn_broadcast', 'spawn_hint'].forEach(id => setupRichTextTools(id));
                 
                 resetConfig();
                 bindUI();
+
+                // Ensure downloadFileName input value is displayed
+                downloadFileNameInput.value = getDefaultConfig().download_file_name;
             }
 
             function getDefaultConfig() {
                 return {
                     id: 1, name: 'Janitor', override_role_name: false, nickname: 'D-%dnumber%',
-                    custom_info: 'Janitor', role_observer_info: '', badge_name: 'Janitor', badge_color: 'pumpkin',
+                    custom_info: 'Janitor', 
+                    role_observer_info: '<color=#fa5757><b>Максимальный щит увеличен до 200 единиц</b></color>', 
+                    badge_name: 'Janitor', badge_color: 'pumpkin',
                     role: 'ClassD', team: 'ClassD', role_appearance: 'ClassD', ragdoll_appearance: 'ClassD', is_friend_of: [],
-                    health: { amount: 100, maximum: 100 },
+                    health: { 
+                        amount: 100, 
+                        maximum: 100,
+                        hume_shield: 0,
+                        max_hume_shield: 200,
+                        hume_shield_regeneration_amount: 2,
+                        hume_shield_regeneration_delay: 7.5
+                    },
                     ahp: { amount: 0, limit: 75, decay: 1.2, efficacy: 0.7, sustain: 0, persistant: false },
-                    hume_shield: { amount: 0, maximum: 0, regeneration_amount: 2, regeneration_delay: 7.5 },
                     effects: [],
                     stamina: { regen_multiplier: 1, usage_multiplier: 1, infinite: false },
                     max_scp330_candies: 2, can_escape: true, role_after_escape: { default: 'InternalRole Spectator' },
                     scale: { x: 1, y: 1, z: 1 },
                     spawn_broadcast: 'You are a <color=orange><b>Janitor</b></color>!', spawn_broadcast_duration: 5,
                     spawn_hint: 'This hint will be shown as a Janitor!', spawn_hint_duration: 5,
-                    inventory: ['Flashlight', 'KeycardJanitor'], custom_items_inventory: [], ammo: { Nato9: 10 },
+                    inventory: ['Flashlight', 'KeycardJanitor'], 
+                    custom_items_inventory: [], 
+                    ammo: { Nato9: 10 },
+                    custom_inventory_limits: {},
+                    inventory_candy: [],
                     damage_multiplier: 1,
                     spawn_settings: {
                         can_replace_roles: ['ClassD'], max_players: 10, min_players: 1, spawn_chance: 60,
-                        spawn: 'RoomsSpawn', spawn_zones: [], spawn_rooms: ['LczClassDSpawn'], spawn_roles: ['ClassD'],
-                        spawn_points: [], required_permission: '',
+                        spawn: 'RoomsSpawn', spawn_zones: [], spawn_rooms: ['LczClassDSpawn'],
+                        spawn_points: [], required_permission: [],
+                        ignore_groups: []
                     },
                     custom_flags: [], ignore_spawn_system: false,
+                    download_file_name: 'custom_role' // Default for download filename
                 };
             }
 
             function resetConfig() {
                 config = getDefaultConfig();
                 updateUIFromConfig();
+                downloadFileNameInput.value = config.download_file_name; // Set default for filename input
             }
             
             function updateUIFromConfig() {
@@ -407,45 +506,80 @@
                     else input.value = value;
                 });
 
+                // Set download file name value
+                downloadFileNameInput.value = config.download_file_name || getDefaultConfig().download_file_name;
+
+
+                // Dynamic lists population
                 populateDynamicList('effectsContainer', config.effects || [], createEffectItem, 'addEffectButton');
                 populateDynamicList('inventoryContainer', config.inventory || [], createInventoryItem, 'addInventoryItemButton');
                 populateDynamicList('customInventoryContainer', config.custom_items_inventory || [], createCustomInventoryItem, 'addCustomInventoryItemButton');
                 populateDynamicList('ammoContainer', Object.entries(config.ammo || {}), createAmmoItem, 'addAmmoButton');
+                populateDynamicList('customInventoryLimitsContainer', Object.entries(config.custom_inventory_limits || {}), createInventoryLimitItem, 'addCustomInventoryLimitButton');
+                populateDynamicList('inventoryCandyContainer', config.inventory_candy || [], createInventoryCandyItem, 'addInventoryCandyButton');
+
+                // Spawn settings dynamic lists
                 populateDynamicList('canReplaceRolesContainer', config.spawn_settings?.can_replace_roles || [], createSimpleSelectItem(enums.roleTypeIds), 'addCanReplaceRoleButton');
-                populateDynamicList('spawnRolesContainer', config.spawn_settings?.spawn_roles || [], createSimpleSelectItem(enums.roleTypeIds), 'addSpawnRoleButton');
                 populateDynamicList('spawnZonesContainer', config.spawn_settings?.spawn_zones || [], createSimpleSelectItem(enums.zoneTypes), 'addSpawnZoneButton');
                 populateDynamicList('spawnRoomsContainer', config.spawn_settings?.spawn_rooms || [], createSimpleSelectItem(enums.roomTypes), 'addSpawnRoomButton');
+				populateDynamicList('spawnPointsContainer', config.spawn_settings?.spawn_points || [], createSimpleTextInput, 'addSpawnPointButton');
+                populateDynamicList('requiredPermissionContainer', config.spawn_settings?.required_permission || [], createSimpleTextInput, 'addRequiredPermissionButton');
+                populateDynamicList('ignoreGroupsContainer', config.spawn_settings?.ignore_groups || [], createSimpleTextInput, 'addIgnoreGroupButton');
+				
                 populateDynamicList('escapeRulesContainer', Object.entries(config.role_after_escape || {}), createEscapeRuleItem, 'addEscapeRuleButton');
                 
+                // Update rich text previews
+                ['name', 'custom_info', 'role_observer_info', 'spawn_broadcast', 'spawn_hint'].forEach(id => {
+                    const input = document.getElementById(id);
+                    const preview = document.getElementById(`${id}_preview`);
+                    if (input && preview) {
+                        preview.innerHTML = parseRichText(input.value);
+                    }
+                });
+
                 form.addEventListener('input', updateConfigFromUI);
             }
 
             function updateConfigFromUI() {
                 const newConfig = {};
                 form.querySelectorAll('[data-path]').forEach(el => {
-                    // Exclude elements within dynamic lists as they are handled separately
                     if (el.closest('.dynamic-list-item, .dynamic-list-item-simple')) return; 
                     const path = el.dataset.path;
                     const value = el.type === 'checkbox' ? el.checked : (el.type === 'number' ? parseFloat(el.value) || 0 : el.value);
                     setObjectValueByPath(newConfig, path, value);
                 });
 
-                // Update dynamic lists
+                // Update download file name in config
+                newConfig.download_file_name = downloadFileNameInput.value;
+
+                // Update dynamic lists in config
                 newConfig.effects = getDynamicObjectList('#effectsContainer');
                 newConfig.inventory = getDynamicSimpleList('#inventoryContainer');
                 newConfig.custom_items_inventory = getDynamicSimpleList('#customInventoryContainer', 'input');
                 newConfig.ammo = getDynamicKeyValueList('#ammoContainer', true);
+                newConfig.custom_inventory_limits = getDynamicKeyValueList('#customInventoryLimitsContainer', true);
+                newConfig.inventory_candy = getDynamicSimpleList('#inventoryCandyContainer');
                 
                 if (!newConfig.spawn_settings) newConfig.spawn_settings = {};
                 newConfig.spawn_settings.can_replace_roles = getDynamicSimpleList('#canReplaceRolesContainer');
-                newConfig.spawn_settings.spawn_roles = getDynamicSimpleList('#spawnRolesContainer');
                 newConfig.spawn_settings.spawn_zones = getDynamicSimpleList('#spawnZonesContainer');
                 newConfig.spawn_settings.spawn_rooms = getDynamicSimpleList('#spawnRoomsContainer');
+				newConfig.spawn_settings.spawn_points = getDynamicSimpleList('#spawnPointsContainer', 'input');
+                newConfig.spawn_settings.required_permission = getDynamicSimpleList('#requiredPermissionContainer', 'input');
+                newConfig.spawn_settings.ignore_groups = getDynamicSimpleList('#ignoreGroupsContainer', 'input');
 
                 newConfig.role_after_escape = getDynamicKeyValueList('#escapeRulesContainer');
                 
-                // Deep merge the new changes into the existing config
                 config = deepMerge(config, newConfig);
+
+                // Update rich text previews on input
+                ['name', 'custom_info', 'role_observer_info', 'spawn_broadcast', 'spawn_hint'].forEach(id => {
+                    const input = document.getElementById(id);
+                    const preview = document.getElementById(`${id}_preview`);
+                    if (input && preview) {
+                        preview.innerHTML = parseRichText(input.value);
+                    }
+                });
             }
 
             function bindUI() {
@@ -458,6 +592,7 @@
                 });
                 
                 form.addEventListener('input', updateConfigFromUI);
+                downloadFileNameInput.addEventListener('input', updateConfigFromUI); // Listen for changes on filename input
                 document.getElementById('downloadButton').addEventListener('click', downloadYAML);
                 document.getElementById('yamlUploader').addEventListener('change', uploadYAML);
                 document.getElementById('resetButton').addEventListener('click', () => {
@@ -468,7 +603,6 @@
                 });
             }
 
-            // --- Dynamic List Helpers ---
             function getDynamicObjectList(containerSelector) {
                 const list = [];
                 document.querySelectorAll(`${containerSelector} .dynamic-list-item`).forEach(item => {
@@ -486,9 +620,13 @@
             function getDynamicKeyValueList(containerSelector, valueIsNumber = false) {
                 const obj = {};
                 document.querySelectorAll(`${containerSelector} .dynamic-list-item`).forEach(item => {
-                    const key = item.querySelector('[data-subpath="key"]').value;
-                    let value = item.querySelector('[data-subpath="value"]').value;
-                    if (key) obj[key] = valueIsNumber ? parseFloat(value) || 0 : value;
+                    const keyInput = item.querySelector('[data-subpath="key"]');
+                    const valueInput = item.querySelector('[data-subpath="value"]');
+                    if (keyInput && valueInput) {
+                        const key = keyInput.value;
+                        let value = valueInput.value;
+                        if (key) obj[key] = valueIsNumber ? parseFloat(value) || 0 : value;
+                    }
                 });
                 return obj;
             }
@@ -497,24 +635,21 @@
                 const container = document.getElementById(containerId);
                 container.innerHTML = '';
                 items.forEach(item => container.appendChild(createItemFn(item)));
-                // Re-attach event listener for the add button as its cloned
                 const oldButton = document.getElementById(addButtonId);
                 const newButton = oldButton.cloneNode(true);
                 oldButton.parentNode.replaceChild(newButton, oldButton);
                 newButton.addEventListener('click', () => { 
                     container.appendChild(createItemFn()); 
-                    updateConfigFromUI(); // Update config when a new item is added
+                    updateConfigFromUI();
                 });
-                // Add event listener for remove buttons using delegation
                 container.addEventListener('click', e => {
                     if (e.target.closest('.remove-item-btn')) {
                         e.target.closest('.dynamic-list-item, .dynamic-list-item-simple').remove();
-                        updateConfigFromUI(); // Update config when an item is removed
+                        updateConfigFromUI();
                     }
                 });
             }
             
-            // --- Item Creation Functions ---
             const createSelectWithOptions = (options, selected) => options.map(o => `<option value="${o}" ${o === selected ? 'selected' : ''}>${o}</option>`).join('');
 
             function createEffectItem(effect = { effect_type: 'Scp207', duration: -1, intensity: 1, removable: false }) {
@@ -556,6 +691,32 @@
                     <button type="button" class="remove-item-btn">X</button>`;
                 return div;
             }
+
+            function createInventoryLimitItem(entry = [enums.inventoryLimitTypes[0], 1]) {
+                const div = document.createElement('div');
+                div.className = 'dynamic-list-item';
+                div.style.gridTemplateColumns = '2fr 1fr auto';
+                div.innerHTML = `
+                    <div class="input-item"><label>Категория</label><select data-subpath="key">${createSelectWithOptions(enums.inventoryLimitTypes, entry[0])}</select></div>
+                    <div class="input-item"><label>Лимит</label><input type="number" data-subpath="value" value="${entry[1]}"></div>
+                    <button type="button" class="remove-item-btn">X</button>`;
+                return div;
+            }
+
+            function createInventoryCandyItem(item = enums.candyKinds[0]) {
+                const div = document.createElement('div');
+                div.className = 'dynamic-list-item-simple';
+                div.innerHTML = `<select class="flex-grow">${createSelectWithOptions(enums.candyKinds, item)}</select><button type="button" class="remove-item-btn">X</button>`;
+                return div;
+            }
+
+            function createSimpleTextInput(item = '') {
+                const div = document.createElement('div');
+                div.className = 'dynamic-list-item-simple';
+                div.innerHTML = `<input type="text" value="${item}" class="flex-grow" placeholder="Разрешение/Группа"><button type="button" class="remove-item-btn">X</button>`;
+                return div;
+            }
+
             function createEscapeRuleItem(entry = ['default', 'InternalRole Spectator']) {
                 const div = document.createElement('div');
                 div.className = 'dynamic-list-item';
@@ -567,34 +728,28 @@
                 return div;
             }
             
-            // --- Rich Text Tools ---
             function setupRichTextTools(inputId) {
                 const input = document.getElementById(inputId);
                 if (!input) return;
 
                 const toolsWrapper = document.createElement('div');
-                toolsWrapper.className = 'rich-text-tools';
+                toolsWrapper.className = 'rich-text-controls';
 
-                // Color Picker
                 const pickerBtn = document.createElement('button');
                 pickerBtn.type = 'button';
                 pickerBtn.className = 'color-picker-btn';
-                // Initialize picker without immediate popup, allowing click to open
                 const picker = new Picker({ 
                     parent: pickerBtn, 
-                    // No 'popup' option by default for click-to-open behavior
                     alpha: false 
                 });
-                // Use onDone to apply the color only after the user confirms their selection
                 picker.onDone = color => {
-                    pickerBtn.style.backgroundColor = color.rgbaString; // Update button color
-                    const hex = color.hex.substring(0, 7); // Get hex code, remove alpha if present
+                    pickerBtn.style.backgroundColor = color.rgbaString;
+                    const hex = color.hex.substring(0, 7);
                     insertTextAtCursor(input, `<color=${hex}>`, `</color>`);
                 };
                 
-                // Rich Text Tags Dropdown
                 const tagSelect = document.createElement('select');
-                const tags = { '': 'Вставить тег...', '<b>': 'Жирный', '<i>': 'Курсив', '<size=20>': 'Размер шрифта' };
+                const tags = { '': 'Вставить тег...', '<b>': 'Жирный', '<i>': 'Курсив', '<u>': 'Подчеркнутый', '<size=20>': 'Размер шрифта' };
                 for (const tag in tags) {
                     tagSelect.add(new Option(tags[tag], tag));
                 }
@@ -602,13 +757,22 @@
                     if (tagSelect.value) {
                         const closingTag = tagSelect.value.startsWith('<size') ? '</size>' : `</${tagSelect.value.substring(1)}`;
                         insertTextAtCursor(input, tagSelect.value, closingTag);
-                        tagSelect.value = ''; // Reset select after insertion
+                        tagSelect.value = '';
                     }
                 };
                 
                 toolsWrapper.appendChild(pickerBtn);
                 toolsWrapper.appendChild(tagSelect);
-                input.parentNode.appendChild(toolsWrapper);
+                input.parentNode.insertBefore(toolsWrapper, input.nextSibling); // Insert after input
+
+                const previewDiv = document.getElementById(`${inputId}_preview`);
+                if (previewDiv) {
+                    input.addEventListener('input', () => {
+                        previewDiv.innerHTML = parseRichText(input.value);
+                    });
+                     // Initial preview update
+                    previewDiv.innerHTML = parseRichText(input.value);
+                }
             }
 
             function insertTextAtCursor(input, textStart, textEnd = '') {
@@ -619,24 +783,66 @@
                 
                 input.value = text.substring(0, startPos) + textStart + selection + textEnd + text.substring(endPos, text.length);
                 input.focus();
-                // Position cursor after the inserted text, or after the closing tag if text was selected
                 input.selectionStart = startPos + textStart.length;
                 input.selectionEnd = input.selectionStart + selection.length;
                 
-                // Manually trigger input event for config update
-                input.dispatchEvent(new Event('input', { bubbles: true }));
+                input.dispatchEvent(new Event('input', { bubbles: true })); // Trigger input event for preview update
             }
 
-            // --- File Handlers & Utilities ---
+            // Function to parse rich text tags into HTML
+            function parseRichText(text) {
+                let html = text.replace(/\n/g, '<br>'); // Convert newlines to <br> for display
+
+                // Order matters for nested tags, parse inner most first if possible or handle carefully
+                html = html.replace(/<color=(#?[0-9a-fA-F]{6}|[a-zA-Z]+)>(.*?)<\/color>/g, '<span style="color: $1;">$2</span>');
+                html = html.replace(/<b>(.*?)<\/b>/g, '<strong>$1</strong>');
+                html = html.replace(/<i>(.*?)<\/i>/g, '<em>$1</em>');
+                html = html.replace(/<u>(.*?)<\/u>/g, '<u>$1</u>'); // HTML <u> tag
+                html = html.replace(/<size=(\d+)>(.*?)<\/size>/g, '<span style="font-size: $1px;">$2</span>'); // Simple pixel size
+
+                return html;
+            }
+
             function downloadYAML() {
                 updateConfigFromUI();
                 try {
-                    const yamlString = jsyaml.dump(config, { indent: 2, lineWidth: -1, skipInvalid: true });
+                    const tempConfig = JSON.parse(JSON.stringify(config)); // Deep copy to modify for dump
+                    
+                    // Remove download_file_name from the actual YAML output
+                    delete tempConfig.download_file_name; 
+
+                    // Fields that might require literal block scalar for newlines
+                    const richTextFields = ['custom_info', 'role_observer_info', 'spawn_broadcast', 'spawn_hint'];
+
+                    richTextFields.forEach(field => {
+                        let value = getObjectValueByPath(tempConfig, field);
+                        if (typeof value === 'string' && value.includes('\n')) {
+                            // Append an extra newline to encourage js-yaml to use literal block scalar '|'
+                            // Only append if it doesn't already end with a newline to avoid double newlines for plain strings
+                            if (!value.endsWith('\n')) {
+                                setObjectValueByPath(tempConfig, field, value + '\n');
+                            }
+                        }
+                    });
+
+                    const yamlString = jsyaml.dump(tempConfig, { 
+                        indent: 2, 
+                        lineWidth: -1, // Disable line wrapping
+                        skipInvalid: true,
+                        noCompatMode: true // Helps with some quoting issues, though not guaranteed for all edge cases
+                    });
+                    
                     const blob = new Blob([yamlString], { type: 'application/x-yaml' });
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = `${(config.name || 'custom_role').replace(/<[^>]*>?/gm, '').replace(/\s+/g, '_')}.yml`;
+                    
+                    let fileName = downloadFileNameInput.value.trim();
+                    if (!fileName) fileName = getDefaultConfig().download_file_name; // Fallback to default if empty
+                    
+                    // Basic filename sanitization
+                    fileName = fileName.replace(/[^a-zA-Z0-9_\-]/g, '_'); 
+                    a.download = `${fileName}.yml`;
                     a.click();
                     URL.revokeObjectURL(url);
                     a.remove();
@@ -655,7 +861,7 @@
                     } catch (err) { showToast(`Ошибка парсинга: ${err.message}`, 'error'); }
                 };
                 reader.readAsText(file);
-                event.target.value = ''; // Clear the input so same file can be uploaded again
+                event.target.value = '';
             }
             function getObjectValueByPath(obj, path) { return path.split('.').reduce((acc, part) => acc && acc[part], obj); }
             function setObjectValueByPath(obj, path, value) {
@@ -665,14 +871,12 @@
             }
             const isObject = (item) => (item && typeof item === 'object' && !Array.isArray(item));
             function deepMerge(target, source) {
-                const output = { ...target }; // Create a shallow copy to avoid direct modification of target
+                const output = { ...target };
                 if (isObject(target) && isObject(source)) {
                     Object.keys(source).forEach(key => {
                         if (isObject(source[key]) && key in target && isObject(target[key])) {
-                            // If both are objects, recurse
                             output[key] = deepMerge(target[key], source[key]);
                         } else {
-                            // Otherwise, directly assign (overwrite or add)
                             output[key] = source[key];
                         }
                     });
@@ -682,7 +886,6 @@
             function showToast(message, type = 'success') {
                 const toast = document.getElementById('toast');
                 toast.textContent = message;
-                // Reset classes first
                 toast.className = 'fixed bottom-5 right-5 text-white py-2 px-4 rounded-lg shadow-lg text-lg transition-opacity duration-300';
                 toast.classList.add(type === 'error' ? 'bg-rose-500' : (type === 'info' ? 'bg-blue-500' : 'bg-green-500'));
                 toast.classList.remove('opacity-0');
